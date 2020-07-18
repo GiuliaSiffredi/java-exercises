@@ -32,7 +32,7 @@ public class EmployeeService {
 
     private static Either<ErrorBean, Report> withoutError(@NonNull JdbcTemplate jdbcTemplate, @NonNull Employee employee) {
         try {
-            val emp = employee.withName(employee.getName().toUpperCase()).withRole(employee.getRole().toUpperCase());
+            val emp = new Employee(employee.getName().toUpperCase(),employee.getRole().toUpperCase());
             DaoEmployee.insert(jdbcTemplate, emp);
             return Either.right(new Report("OK", "stored new employee " + emp.getName()));
         } catch (Exception e) {

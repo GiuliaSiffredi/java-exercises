@@ -3,7 +3,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.vavr.control.Option;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,9 +17,9 @@ public class JsonTest {
     private static Staff getStaff() {
         io.vavr.collection.List<String> position = io.vavr.collection.List.of("manager", "hr");
 
-        java.util.List<String> skills = new ArrayList<>(java.util.List.of("foo", "bar"));
+        java.util.List<String> skills = Arrays.asList("foo", "bar");
 
-        Map<String, Integer> salary = new HashMap<>();
+        Map<String, Integer> salary = new HashMap();
         salary.put("abc", 10000);
         salary.put("def", 20000);
 

@@ -10,16 +10,15 @@ import lombok.*;
  */
 @ToString
 @Getter
+@Setter
 @EqualsAndHashCode
 final public class Employee {
 
-    @With
     private String name;
 
-    @With
     private String role;
 
-    public Employee() {
+    private Employee() {
     }
 
     public Employee(@NonNull EmployeeEntity entity) {

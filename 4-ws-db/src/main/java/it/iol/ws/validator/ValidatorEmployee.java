@@ -24,11 +24,13 @@ public class ValidatorEmployee {
     }
 
     private static Validation<String, String> validateName(@NonNull String name) {
-        return name.isBlank() ? Validation.invalid("name is empty") : Validation.valid(name);
+//        return name.isBlank() ? Validation.invalid("name is empty") : Validation.valid(name); java 11
+        return name.trim().isEmpty() ? Validation.invalid("name is empty") : Validation.valid(name);
     }
 
     private static Validation<String, String> validateRole(@NonNull String role) {
-        return role.isBlank() ? Validation.invalid("role is empty") : Validation.valid(role);
+//        return role.isBlank() ? Validation.invalid("role is empty") : Validation.valid(role); java 11
+        return role.trim().isEmpty() ? Validation.invalid("role is empty") : Validation.valid(role);
     }
 
 }

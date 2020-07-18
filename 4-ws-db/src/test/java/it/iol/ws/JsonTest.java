@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +22,8 @@ public class JsonTest {
     private static Staff getStaff() {
         io.vavr.collection.List<String> position = io.vavr.collection.List.of("manager", "hr");
 
-        java.util.List<String> skills = new ArrayList<>(java.util.List.of("foo", "bar"));
+//        java.util.List<String> skills = new ArrayList<>(java.util.List.of("foo", "bar")); java 11
+        java.util.List<String> skills = new ArrayList<>(Arrays.asList("foo", "bar"));
 
         Map<String, Integer> salary = new HashMap<>();
         salary.put("abc", 10000);
@@ -65,7 +67,8 @@ public class JsonTest {
      */
     @Test
     public void javaToJsonStringSalaryNull() throws JsonProcessingException {
-        val staff = getStaff().withSalary(Option.none());
+        val staff = getStaff();
+        staff.setSalary(Option.none());
         String jsonString = JsonHelper.javaToString(staff);
         log.debug("jsonString: " + JsonHelper.javaToPrettyString(staff));
 

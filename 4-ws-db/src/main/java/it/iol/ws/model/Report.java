@@ -9,13 +9,12 @@ import lombok.*;
  */
 @ToString
 @Getter
+@Setter
 @EqualsAndHashCode
 final public class Report {
 
-    @With
     private String status;
 
-    @With
     private String desc;
 
     private Report() {

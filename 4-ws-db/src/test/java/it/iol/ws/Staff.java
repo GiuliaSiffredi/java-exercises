@@ -9,22 +9,18 @@ import java.util.Map;
 
 @ToString
 @Getter
+@Setter
 @EqualsAndHashCode
 public class Staff {
 
-    @With
     private String name;
 
-    @With
     private int age;
 
-    @With
     private Seq<String> position;                   // vavr list
 
-    @With
     private List<String> skills;                    // java List
 
-    @With
     private Option<Map<String, Integer>> salary;    // Map
 
     private Staff() {
