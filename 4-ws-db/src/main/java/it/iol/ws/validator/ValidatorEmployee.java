@@ -1,9 +1,12 @@
 package it.iol.ws.validator;
 
 import io.vavr.collection.Seq;
+import io.vavr.control.Either;
 import io.vavr.control.Validation;
 import it.iol.ws.model.Employee;
 import lombok.NonNull;
+
+import java.util.List;
 
 /**
  * static methods to validate Employee objects
@@ -19,8 +22,10 @@ public class ValidatorEmployee {
      * @param employee
      * @return
      */
-    public static Validation<Seq<String>, Employee> validateEmployee(@NonNull Employee employee) {
-        return Validation.combine(validateName(employee.getName()), validateRole(employee.getRole())).ap(Employee::new);
+    public static Either<List<String>, Employee> validateEmployee(@NonNull Employee employee) {
+        Validation<Seq<String>, Employee> v1 = Validation.combine(validateName(employee.getName()), validateRole(employee.getRole())).ap(Employee::new);
+        Validation<List<String>, Employee> v2 = v1.mapError(e -> e.toJavaList());
+        return v2.toEither();
     }
 
     private static Validation<String, String> validateName(@NonNull String name) {

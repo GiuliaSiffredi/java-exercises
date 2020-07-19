@@ -1,8 +1,6 @@
 package it.iol.ws.model;
 
-import io.vavr.collection.Seq;
 import lombok.*;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,10 +27,6 @@ final public class ErrorBean {
 
     public ErrorBean(@NonNull List<String> errors) {
         this.errors = errors;
-    }
-
-    public ErrorBean(@NonNull Seq<String> errors) {
-        this.errors = errors.toJavaList();
     }
 
 }

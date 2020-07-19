@@ -10,17 +10,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Log4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class JsonTest {
 
     private static Staff getStaff() {
-        io.vavr.collection.List<String> position = io.vavr.collection.List.of("manager", "hr");
+        List<String> position = Arrays.asList("manager", "hr");
 
 //        java.util.List<String> skills = new ArrayList<>(java.util.List.of("foo", "bar")); java 11
         java.util.List<String> skills = new ArrayList<>(Arrays.asList("foo", "bar"));
