@@ -52,5 +52,5 @@ throw an error:
 
 TODO
 ----
-* add `id` int field in Employee table and use it as unique key instead of name
+* add `id` int field in Employee table and use it as unique key instead of name and `role` becomes nullable
 * add `PUT` (update) and `DELETE` in EmployeeController and modify unit test

@@ -15,13 +15,13 @@
     <packaging>war</packaging>
 
     <name>ws-db</name>
-  
+
     <properties>
         <vavr.version>0.10.3</vavr.version>
     </properties>
 
     <dependencies>
-<!--        spring-->
+        <!--        spring-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -39,14 +39,14 @@
             </exclusions>
         </dependency>
 
-<!--        functional-->
+        <!--        functional-->
         <dependency>
             <groupId>io.vavr</groupId>
             <artifactId>vavr-jackson</artifactId>
             <version>${vavr.version}</version>
         </dependency>
 
-<!--no boilerplate-->
+        <!--no boilerplate-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -54,21 +54,21 @@
             <scope>provided</scope>
         </dependency>
 
-<!--        utilities-->
+        <!--        utilities-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.10</version>
         </dependency>
 
-<!--        test-->
+        <!--        test-->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>test</scope>
         </dependency>
 
-<!--        log-->
+        <!--        log-->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
@@ -79,7 +79,7 @@
             <artifactId>log4j-over-slf4j</artifactId>
         </dependency>
 
-<!--        db-->
+        <!--        db-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
@@ -90,6 +90,11 @@
             <artifactId>postgresql</artifactId>
             <version>42.2.14</version>
         </dependency>
+
+        <!--        <dependency>-->
+        <!--            <groupId>mysql</groupId>-->
+        <!--            <artifactId>mysql-connector-java</artifactId>-->
+        <!--        </dependency>-->
     </dependencies>
 
     <build>

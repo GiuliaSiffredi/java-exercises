@@ -4,13 +4,11 @@ import it.iol.ws.dao.EmployeeEntity;
 import lombok.*;
 
 /**
- * The class is immutable - no setter
  * no default constructor
  * all attributes are not null
  */
 @ToString
 @Getter
-@Setter
 @EqualsAndHashCode
 final public class Employee {
 
@@ -19,6 +17,14 @@ final public class Employee {
     private String role;
 
     private Employee() {
+    }
+
+    public void setName(@NonNull String name) {
+        this.name = name;
+    }
+
+    public void setRole(@NonNull String role) {
+        this.role = role;
     }
 
     public Employee(@NonNull EmployeeEntity entity) {
