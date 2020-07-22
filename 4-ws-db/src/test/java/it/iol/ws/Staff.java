@@ -25,6 +25,15 @@ public class Staff {
     private Staff() {
     }
 
+
+    public Staff(String name, int age, List<String> position, List<String> skills, Map<String, Integer> salary) {
+        this.name = name;
+        this.age = age;
+        this.position = position;
+        this.skills = skills;
+        this.salary = salary;
+    }
+
     @NonNull
     public String getName() {
         return name;
@@ -65,14 +74,6 @@ public class Staff {
     }
 
     public void setSalary(Map<String, Integer> salary) {
-        this.salary = salary;
-    }
-
-    public Staff(String name, int age, List<String> position, List<String> skills, Map<String, Integer> salary) {
-        this.name = name;
-        this.age = age;
-        this.position = position;
-        this.skills = skills;
         this.salary = salary;
     }
 
