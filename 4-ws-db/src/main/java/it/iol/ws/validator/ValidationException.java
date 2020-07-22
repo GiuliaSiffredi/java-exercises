@@ -1,30 +1,19 @@
-package it.iol.ws;
+package it.iol.ws.validator;
 
-import org.springframework.lang.NonNull;
+import lombok.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Getter
+@Setter
+@ToString
 public class ValidationException extends Exception {
-    @NonNull
 
+    @NonNull
     private List<String> errors = new ArrayList<>();
 
-    private boolean empty;
-
-    public boolean isEmpty() {
-        return errors.isEmpty();
-    }
-
-    public void setErrors( List<String> errors) {
-        this.errors = errors;
-    }
-
-    public List<String> getErrors() {
-        return errors;
-    }
-
-    public void add(String error) {
+    public void add(@NonNull String error) {
         this.errors.add(error);
     }
 
@@ -36,10 +25,13 @@ public class ValidationException extends Exception {
         errors = Arrays.asList(err);
     }
 
-    public ValidationException(List<String> errors) {
+    public ValidationException(@NonNull List<String> errors) {
         this.errors = errors;
     }
 
 
+    public boolean isEmpty() {
+        return errors.isEmpty();
+    }
 }
 

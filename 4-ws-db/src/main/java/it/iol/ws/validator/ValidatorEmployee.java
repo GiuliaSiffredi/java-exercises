@@ -1,7 +1,7 @@
 package it.iol.ws.validator;
 
-import it.iol.ws.ValidationException;
 import it.iol.ws.model.Employee;
+import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -18,7 +18,7 @@ public class ValidatorEmployee {
      * @param employee
      * @return
      */
-    public static Employee validateEmployee(Employee employee) throws ValidationException {
+    public static Employee validateEmployee(@NonNull Employee employee) throws ValidationException {
         ValidationException validationException = new ValidationException();
         if (StringUtils.isBlank(employee.getName())) validationException.add("name is empty");
         if (StringUtils.isBlank(employee.getRole())) validationException.add("role is empty");

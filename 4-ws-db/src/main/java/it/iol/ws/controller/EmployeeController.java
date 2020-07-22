@@ -1,7 +1,7 @@
 package it.iol.ws.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import it.iol.ws.ValidationException;
+import it.iol.ws.validator.ValidationException;
 import it.iol.ws.model.Employee;
 import it.iol.ws.model.Report;
 import it.iol.ws.service.EmployeeService;

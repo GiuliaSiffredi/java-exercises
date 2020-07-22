@@ -1,13 +1,12 @@
 package it.iol.ws.dao;
 
 import it.iol.ws.model.Employee;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.lang.NonNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,9 +15,8 @@ import java.util.Optional;
  * Employee table
  * https://mkyong.com/spring/spring-jdbctemplate-querying-examples/
  */
+@Slf4j
 public class DaoEmployee {
-
-    private static final Logger log = LoggerFactory.getLogger(DaoEmployee.class);
 
     private DaoEmployee() {
     }
