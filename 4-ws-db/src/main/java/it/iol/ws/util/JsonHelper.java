@@ -8,13 +8,12 @@ package it.iol.ws.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.vavr.jackson.datatype.VavrModule;
 
 public class JsonHelper {
     private JsonHelper() {
     }
 
-    public final static ObjectMapper objectMapper = new ObjectMapper().registerModule(new VavrModule());
+    public final static ObjectMapper objectMapper = new ObjectMapper();
 
     public static <T> JsonNode javaToJson(T o) {
         return objectMapper.valueToTree(o);

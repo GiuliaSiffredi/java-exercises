@@ -1,31 +1,29 @@
 package it.iol.ws.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import io.vavr.control.Either;
-import io.vavr.control.Option;
+import it.iol.ws.ValidationException;
 import it.iol.ws.model.Employee;
 import it.iol.ws.model.Report;
-import it.iol.ws.model.ErrorBean;
 import it.iol.ws.service.EmployeeService;
 import it.iol.ws.util.JsonHelper;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
-
-import static io.vavr.API.*;
-import static io.vavr.Patterns.*;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * https://spring.io/guides/gs/rest-service/
  */
-@Slf4j
 @RestController
-@RequestMapping("/employees/v1")
+@RequestMapping("/employee")
 public class EmployeeController {
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     @Qualifier("jdbcTemplate1")
@@ -39,18 +37,33 @@ public class EmployeeController {
     @PostMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
     ResponseEntity<JsonNode> addEmployee(@RequestBody Employee employee, @PathVariable Long id) {
         log.debug(String.format("received %s id: %d", employee, id));
-        Either<ErrorBean, Report> json = EmployeeService.insert(jdbcTemplate, employee);
-        return Match(json).of(
-                Case($Right($()), report -> new ResponseEntity<>(JsonHelper.javaToJson(report), HttpStatus.OK)),
-                Case($Left($()), errors -> new ResponseEntity<>(JsonHelper.javaToJson(errors), HttpStatus.BAD_REQUEST)));
+
+        try {
+            Report report = EmployeeService.insert(jdbcTemplate, employee);
+            return new ResponseEntity<>(JsonHelper.javaToJson(report), HttpStatus.OK);
+        } catch (ValidationException errors) {
+            return new ResponseEntity<>(JsonHelper.javaToJson(errors.getErrors()), HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @GetMapping(path = "/{name}", produces = "application/json")
     ResponseEntity<JsonNode> getEmployee(@PathVariable String name) {
         log.debug(String.format("received id: %s", name));
-        Option<Employee> json = EmployeeService.get(jdbcTemplate, name);
-        return Match(json).of(
-                Case($Some($()), e -> new ResponseEntity<>(JsonHelper.javaToJson(e), HttpStatus.OK)),
-                Case($None(), () -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND)));
+        Optional<Employee> json = EmployeeService.getById(jdbcTemplate, name);
+        if (json.isPresent()) {
+            Employee e = json.get();
+            return new ResponseEntity<>(JsonHelper.javaToJson(e), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    @GetMapping(path = "role/{role}", produces = "application/json")
+    ResponseEntity<JsonNode> getEmployeeByRole(@PathVariable String role) {
+        log.debug(String.format("received id: %s", role));
+        List<Employee> list = EmployeeService.getByRole(jdbcTemplate, role);
+        return new ResponseEntity<>(JsonHelper.javaToJson(list), HttpStatus.OK);
     }
 }

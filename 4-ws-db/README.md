@@ -1,11 +1,6 @@
 ws-db
 =====
 
-Library:
-* Spring boot (https://spring.io)
-* Vavr (https://www.vavr.io/vavr-docs)
-* Lombok (https://projectlombok.org/features/all)
-
 Setup
 ---
 Create postgresql db 'mydb' user 'mydb' pass: mydb
@@ -19,8 +14,9 @@ grant all privileges on database gandal to mydb;
 create table
 ```
 CREATE TABLE employee (	
-	name varchar(36) NOT NULL,
-	role varchar(36) NOT null,
+	name varchar(25) NOT NULL,
+	role varchar(25) NOT null,
+	department varchar(15) null,
 	CONSTRAINT name_pkey PRIMARY KEY (name)	
 );
 ```
@@ -41,16 +37,20 @@ Run
 
 add new Employee:
 
-`curl -v -X POST localhost:8080/employees/v1/3 -H 'Content-Type:application/json' -d '{"name": "Samwise", "role": "ring bearer"}'`
+`curl -v -X POST localhost:8080/employee/3 -H 'Content-Type:application/json' -d '{"name": "bob", "role": "developer"}'`
 
-read Employee:
+read Employee by name:
 
-`curl -v -X GET localhost:8080/employees/v1/Samwise`
+`curl -v -X GET localhost:8080/employee/bob`
+
+read all Employees by role:
+
+`curl -v -X GET localhost:8080/employee/role/developer`
 
 throw an error:
-`curl -v -X POST localhost:8080/employees/v1/3 -H 'Content-Type:application/json' -d '{"name": "", "role": " "}'`
+`curl -v -X POST localhost:8080/employee/3 -H 'Content-Type:application/json' -d '{"name": "", "role": " "}'`
 
 TODO
 ----
-* add `id` int field in Employee table and use it as unique key instead of name and `role` becomes nullable
+* add `id` int field in Employee table and use it as unique key instead of name (change create table in BaseTestClass too)
 * add `PUT` (update) and `DELETE` in EmployeeController and modify unit test

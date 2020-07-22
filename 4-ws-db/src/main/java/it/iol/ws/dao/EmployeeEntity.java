@@ -1,27 +1,45 @@
 package it.iol.ws.dao;
 
-import lombok.Getter;
-import lombok.NonNull;
 
-@Getter
+import org.springframework.lang.NonNull;
+
 public class EmployeeEntity {
-
+    @NonNull
     private String name;
+    @NonNull
     private String role;
+    private String department;
 
-    private EmployeeEntity(){}
+    EmployeeEntity() {
+    }
 
-    public EmployeeEntity(@NonNull String name,@NonNull String role) {
+    public EmployeeEntity(String name, String role, String department) {
         this.name = name;
+        this.role = role;
+        this.department = department;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
         this.role = role;
     }
 
-    public void setName(@NonNull String name) {
-        this.name = name;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setRole(@NonNull String role) {
-        this.role = role;
+    public void setDepartment(String department) {
+        this.department = department;
     }
-
 }

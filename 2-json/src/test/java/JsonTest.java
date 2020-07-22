@@ -1,12 +1,10 @@
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import io.vavr.control.Option;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import it.iol.json.JsonHelper;
@@ -15,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 public class JsonTest {
     private static Staff getStaff() {
-        io.vavr.collection.List<String> position = io.vavr.collection.List.of("manager", "hr");
+        List<String> position = Arrays.asList("manager", "hr");
 
         java.util.List<String> skills = Arrays.asList("foo", "bar");
 
@@ -23,7 +21,7 @@ public class JsonTest {
         salary.put("abc", 10000);
         salary.put("def", 20000);
 
-        return new Staff("bob", 30, position, skills, Option.some(salary));
+        return new Staff("bob", 30, position, skills, salary);
     }
 
     /**
@@ -62,7 +60,7 @@ public class JsonTest {
     @Test
     public void javaToJsonStringSalaryNull() throws JsonProcessingException {
         Staff staff = getStaff();
-        staff.setSalary(Option.none());
+        staff.setSalary(null);
         String jsonString = JsonHelper.javaToString(staff);
         System.out.println("jsonString: " + JsonHelper.javaToPrettyString(staff));
 

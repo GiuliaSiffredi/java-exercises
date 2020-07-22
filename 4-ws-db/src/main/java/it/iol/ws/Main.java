@@ -1,17 +1,17 @@
 package it.iol.ws;
 
-import lombok.val;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@Slf4j
 @SpringBootApplication
 public class Main {
+    private static final Logger log = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
-        val env = "spring.profiles.active";
-        val prop = System.getenv(env) != null ? System.getenv(env) : System.getProperty(env);
+        String env = "spring.profiles.active";
+        String prop = System.getenv(env) != null ? System.getenv(env) : System.getProperty(env);
         if (prop == null || (!prop.equals("local") && !prop.equals("dev") && !prop.equals("it") && !prop.equals("prod") && !prop.equals("test"))) {
             log.error("bad " + env + " ******************* use -Dspring.profiles.active={local|it|dev|prod|test} *******************");
             assert (false);

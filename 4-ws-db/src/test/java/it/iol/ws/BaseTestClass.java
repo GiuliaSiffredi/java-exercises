@@ -1,7 +1,8 @@
 package it.iol.ws;
 
-import lombok.extern.log4j.Log4j;
 import org.junit.jupiter.api.BeforeEach;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,9 +11,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Log4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class BaseTestClass {
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private Environment environment;
@@ -26,8 +27,9 @@ class BaseTestClass {
         assertEquals("it", environment.getProperty("spring.profiles.active"), "use -Dspring.profiles.active=it");
         try {
             jdbcTemplate.execute("CREATE TABLE employee (\t\n" +
-                    "\tname varchar(36) NOT NULL,\n" +
-                    "\trole varchar(36) NOT null,\n" +
+                    "\tname varchar(25) NOT NULL,\n" +
+                    "\trole varchar(25) NOT null,\n" +
+                    "\tdepartment varchar(15) null,\n" +
                     "\tCONSTRAINT name_pkey PRIMARY KEY (name)\t\n" +
                     ");");
 

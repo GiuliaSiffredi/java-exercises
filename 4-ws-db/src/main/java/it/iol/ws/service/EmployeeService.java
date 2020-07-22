@@ -1,46 +1,56 @@
 package it.iol.ws.service;
 
-import io.vavr.control.Either;
-import io.vavr.control.Option;
+import it.iol.ws.ValidationException;
 import it.iol.ws.dao.DaoEmployee;
+import it.iol.ws.dao.EmployeeEntity;
 import it.iol.ws.model.Employee;
 import it.iol.ws.model.Report;
-import it.iol.ws.model.ErrorBean;
 import it.iol.ws.validator.ValidatorEmployee;
-import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
-import lombok.val;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.lang.NonNull;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-@Slf4j
 public class EmployeeService {
+    private static final Logger log = LoggerFactory.getLogger(EmployeeService.class);
 
     private EmployeeService() {
     }
 
-    private static Either<ErrorBean, Report> employeeService(@NonNull JdbcTemplate jdbcTemplate, @NonNull Employee employee) {
+    private static Report employeeService(@NonNull JdbcTemplate jdbcTemplate, Employee employee) throws ValidationException {
         try {
-            val emp = new Employee(employee.getName().toUpperCase(), employee.getRole().toUpperCase());
+            Employee emp = new Employee(employee.getName().toUpperCase(), employee.getRole().toUpperCase(), employee.getDepartment());
             DaoEmployee.insert(jdbcTemplate, emp);
-            return Either.right(new Report("OK", "stored new employee " + emp.getName()));
+            return new Report("OK", "stored new employee " + emp.getName());
+        } catch (DuplicateKeyException e) {
+            log.error("insert error", e);
+            throw new ValidationException("Entity exists");
         } catch (Exception e) {
             log.error("insert error", e);
-            return Either.left(new ErrorBean(e.getMessage()));
+            throw new ValidationException(e.getMessage());
         }
     }
 
-    public static Either<ErrorBean, Report> insert(@NonNull JdbcTemplate jdbcTemplate, @NonNull Employee employee) {
-
-        Either<List<String>, Employee> validator = ValidatorEmployee.validateEmployee(employee);
-
-        if (validator.isLeft()) return Either.left(new ErrorBean(validator.getLeft()));
-        return (employeeService(jdbcTemplate, validator.get()));
+    public static Report insert(@NonNull JdbcTemplate jdbcTemplate, @NonNull Employee employee) throws ValidationException {
+        Employee emp = ValidatorEmployee.validateEmployee(employee);
+        return employeeService(jdbcTemplate, emp);
     }
 
-    public static Option<Employee> get(JdbcTemplate jdbcTemplate, String name) {
-        val e = DaoEmployee.readById(jdbcTemplate, name.toUpperCase());
+    public static List<Employee> getByRole(JdbcTemplate jdbcTemplate, String role) {
+        List<EmployeeEntity> l = DaoEmployee.readByRole(jdbcTemplate, role.toUpperCase());
+        Stream<Employee> s = l.stream().map(entity -> new Employee(entity));
+        return s.collect(Collectors.toList());
+    }
+
+    public static Optional<Employee> getById(JdbcTemplate jdbcTemplate, String name) {
+        Optional<EmployeeEntity> e = DaoEmployee.readById(jdbcTemplate, name.toUpperCase());
         return e.map(entity -> new Employee(entity));
     }
 }

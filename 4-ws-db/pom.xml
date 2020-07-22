@@ -16,10 +16,6 @@
 
     <name>ws-db</name>
 
-    <properties>
-        <vavr.version>0.10.3</vavr.version>
-    </properties>
-
     <dependencies>
         <!--        spring-->
         <dependency>
@@ -37,21 +33,6 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-
-        <!--        functional-->
-        <dependency>
-            <groupId>io.vavr</groupId>
-            <artifactId>vavr-jackson</artifactId>
-            <version>${vavr.version}</version>
-        </dependency>
-
-        <!--no boilerplate-->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.12</version>
-            <scope>provided</scope>
         </dependency>
 
         <!--        utilities-->

@@ -1,6 +1,5 @@
 package it.iol.ws;
 
-import lombok.val;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -15,7 +14,7 @@ public class AppConfig {
     @Bean(name = "db1")
     @ConfigurationProperties(prefix = "mydatasource1.datasource")
     public DataSource dataSource1() {
-        val ds= DataSourceBuilder.create().build();
+        DataSource ds = DataSourceBuilder.create().build();
         assert (ds != null);
         return ds;
     }

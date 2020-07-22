@@ -1,21 +1,21 @@
 package it.iol.json.model;
 
-import io.vavr.control.Option;
-
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Staff {
 
     private String name;
     private int age;
-    private io.vavr.collection.List<String> position;   // vavr list
-    private java.util.List<String> skills;              // java List
-    private Option<Map<String, Integer>> salary;        // Map
+    private List<String> position;                      // list
+    private java.util.List<String> skills;              // List
+    private Map<String, Integer> salary;                // Map
 
     private Staff() {
     }
 
-    public Staff(String name, int age, io.vavr.collection.List<String> position, java.util.List<String> skills, Option<Map<String, Integer>> salary) {
+    public Staff(String name, int age, List<String> position, java.util.List<String> skills, Map<String, Integer> salary) {
         this.name = name;
         this.age = age;
         this.position = position;
@@ -50,27 +50,44 @@ public class Staff {
         this.age = age;
     }
 
-    public io.vavr.collection.List<String> getPosition() {
+    public List<String> getPosition() {
         return position;
     }
 
-    public void setPosition(io.vavr.collection.List<String> position) {
+    public void setPosition(List<String> position) {
         this.position = position;
     }
 
-    public java.util.List<String> getSkills() {
+    public List<String> getSkills() {
         return skills;
     }
 
-    public void setSkills(java.util.List<String> skills) {
+    public void setSkills(List<String> skills) {
         this.skills = skills;
     }
 
-    public Option<Map<String, Integer>> getSalary() {
+    public Map<String, Integer> getSalary() {
         return salary;
     }
 
-    public void setSalary(Option<Map<String, Integer>> salary) {
+    public void setSalary(Map<String, Integer> salary) {
         this.salary = salary;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Staff staff = (Staff) o;
+        return age == staff.age &&
+                Objects.equals(name, staff.name) &&
+                Objects.equals(position, staff.position) &&
+                Objects.equals(skills, staff.skills) &&
+                Objects.equals(salary, staff.salary);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age, position, skills, salary);
     }
 }
