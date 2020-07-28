@@ -34,7 +34,7 @@ public class EmployeeController {
      * @param id
      * @return
      */
-    @PostMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
+    @PutMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
     ResponseEntity<JsonNode> addEmployee(@RequestBody Employee employee, @PathVariable Long id) {
         log.debug(String.format("received %s id: %d", employee, id));
 

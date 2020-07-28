@@ -9,10 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 
 import java.util.List;
 
@@ -36,13 +33,13 @@ class WsApplicationTests extends BaseTestClass {
         JsonNode empJson = JsonHelper.javaToJson(emp);
         HttpEntity<JsonNode> request = new HttpEntity<>(empJson, headers);
 
-        ResponseEntity<JsonNode> responseEntityStr = restTemplate.postForEntity("http://localhost:" + port + "/employee/3", request, JsonNode.class);
+        ResponseEntity<JsonNode> responseEntityStr = restTemplate.exchange("http://localhost:" + port + "/employee/3", HttpMethod.PUT, request, JsonNode.class);
 
         //check result
         assertEquals(responseEntityStr.getStatusCode().value(), 200);
 
         Report expected = new Report("OK", "stored new employee " + randomName.toUpperCase());
-        Report s = JsonHelper.jsonToJava( responseEntityStr.getBody(), Report.class);
+        Report s = JsonHelper.jsonToJava(responseEntityStr.getBody(), Report.class);
         assertEquals(s, expected);
 
         // read employee
@@ -64,8 +61,7 @@ class WsApplicationTests extends BaseTestClass {
         Object empJson = JsonHelper.javaToJson(emp);
         HttpEntity<Object> request = new HttpEntity<>(empJson, headers);
 
-        ResponseEntity<JsonNode> responseEntityJson = restTemplate.
-                postForEntity("http://localhost:" + port + "/employee/3", request, JsonNode.class);
+        ResponseEntity<JsonNode> responseEntityJson = restTemplate.exchange("http://localhost:" + port + "/employee/3", HttpMethod.PUT, request, JsonNode.class);
 
         //check result
         assertEquals(responseEntityJson.getStatusCode().value(), 400);
@@ -85,8 +81,7 @@ class WsApplicationTests extends BaseTestClass {
         Object empJson = JsonHelper.javaToJson(emp);
         HttpEntity<Object> request = new HttpEntity<>(empJson, headers);
 
-        ResponseEntity<JsonNode> responseEntityJson = restTemplate.
-                postForEntity("http://localhost:" + port + "/employee/3", request, JsonNode.class);
+        ResponseEntity<JsonNode> responseEntityJson = restTemplate.exchange("http://localhost:" + port + "/employee/3", HttpMethod.PUT, request, JsonNode.class);
 
         //check result
         assertEquals(responseEntityJson.getStatusCode().value(), 400);

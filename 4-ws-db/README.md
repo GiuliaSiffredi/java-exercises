@@ -37,7 +37,7 @@ Run
 
 add new Employee:
 
-`curl -v -X POST localhost:8080/employee/3 -H 'Content-Type:application/json' -d '{"name": "bob", "role": "developer"}'`
+`curl -v -X PUT localhost:8080/employee/3 -H 'Content-Type:application/json' -d '{"name": "bob", "role": "developer"}'`
 
 read Employee by name:
 
@@ -48,9 +48,10 @@ read all Employees by role:
 `curl -v -X GET localhost:8080/employee/role/developer`
 
 throw an error:
-`curl -v -X POST localhost:8080/employee/3 -H 'Content-Type:application/json' -d '{"name": "", "role": " "}'`
+`curl -v -X PUT localhost:8080/employee/3 -H 'Content-Type:application/json' -d '{"name": "", "role": " "}'`
 
 TODO
 ----
 * add `id` int field in Employee table and use it as unique key instead of name (change create table in BaseTestClass too)
-* add `PUT` (update) and `DELETE` in EmployeeController and modify unit test
+* add `DELETE` in EmployeeController and modify unit test
+* add `POST` (update) in EmployeeController and modify unit test

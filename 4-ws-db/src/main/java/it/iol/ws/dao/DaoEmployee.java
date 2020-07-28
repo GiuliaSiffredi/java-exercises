@@ -41,7 +41,7 @@ public class DaoEmployee {
                     sql,
                     new Object[]{name},
                     new BeanPropertyRowMapper(EmployeeEntity.class));
-            return Optional.of(emp);
+            return Optional.ofNullable(emp);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }

@@ -2,10 +2,6 @@ package it.iol.ws.model;
 
 import lombok.*;
 
-/**
- * no default constructor
- * all attributes are not null
- */
 @Getter
 @Setter
 @ToString

@@ -9,13 +9,13 @@ public class Staff {
     private String name;
     private int age;
     private List<String> position;                      // list
-    private java.util.List<String> skills;              // List
+    private List<String> skills;                        // List
     private Map<String, Integer> salary;                // Map
 
     private Staff() {
     }
 
-    public Staff(String name, int age, List<String> position, java.util.List<String> skills, Map<String, Integer> salary) {
+    public Staff(String name, int age, List<String> position, List<String> skills, Map<String, Integer> salary) {
         this.name = name;
         this.age = age;
         this.position = position;

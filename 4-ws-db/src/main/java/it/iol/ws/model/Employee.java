@@ -3,10 +3,6 @@ package it.iol.ws.model;
 import it.iol.ws.dao.EmployeeEntity;
 import lombok.*;
 
-/**
- * no default constructor
- * all attributes are not null
- */
 @Getter
 @Setter
 @ToString
