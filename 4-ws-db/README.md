@@ -8,7 +8,7 @@ Create postgresql db 'mydb' user 'mydb' pass: mydb
 ```
 create database mydb;
 create user mydb with encrypted password 'mydb';
-grant all privileges on database gandal to mydb;
+grant all privileges on database mydb to mydb;
 ```
 
 create table
