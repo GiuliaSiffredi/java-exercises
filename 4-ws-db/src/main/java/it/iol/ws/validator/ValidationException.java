@@ -6,11 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 
 @Getter
-@Setter
-@ToString
 public class ValidationException extends Exception {
 
-    @NonNull
     private List<String> errors = new ArrayList<>();
 
     public void add(@NonNull String error) {
@@ -28,7 +25,6 @@ public class ValidationException extends Exception {
     public ValidationException(@NonNull List<String> errors) {
         this.errors = errors;
     }
-
 
     public boolean isEmpty() {
         return errors.isEmpty();

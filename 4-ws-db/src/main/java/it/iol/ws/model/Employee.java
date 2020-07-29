@@ -1,6 +1,6 @@
 package it.iol.ws.model;
 
-import it.iol.ws.dao.EmployeeEntity;
+import it.iol.ws.sql.EmployeeEntity;
 import lombok.*;
 
 @Getter

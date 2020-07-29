@@ -1,4 +1,4 @@
-package it.iol.ws.dao;
+package it.iol.ws.sql;
 
 import lombok.*;
 

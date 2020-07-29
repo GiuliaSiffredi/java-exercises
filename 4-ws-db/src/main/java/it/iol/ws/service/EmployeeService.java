@@ -1,8 +1,8 @@
 package it.iol.ws.service;
 
 import it.iol.ws.validator.ValidationException;
-import it.iol.ws.dao.DaoEmployee;
-import it.iol.ws.dao.EmployeeEntity;
+import it.iol.ws.sql.DaoEmployee;
+import it.iol.ws.sql.EmployeeEntity;
 import it.iol.ws.model.Employee;
 import it.iol.ws.model.Report;
 import it.iol.ws.validator.ValidatorEmployee;
@@ -36,7 +36,7 @@ public class EmployeeService {
     }
 
     public static Report insert(@NonNull JdbcTemplate jdbcTemplate, @NonNull Employee employee) throws ValidationException {
-        Employee emp = ValidatorEmployee.validateEmployee(employee);
+        Employee emp = new ValidatorEmployee(employee).validate();
         return employeeService(jdbcTemplate, emp);
     }
 

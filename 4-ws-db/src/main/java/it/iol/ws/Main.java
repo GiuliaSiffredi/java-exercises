@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Main {
 
     public static void main(String[] args) {
+
         String env = "spring.profiles.active";
         String prop = System.getenv(env) != null ? System.getenv(env) : System.getProperty(env);
         if (prop == null || (!prop.equals("local") && !prop.equals("dev") && !prop.equals("it") && !prop.equals("prod") && !prop.equals("test"))) {
