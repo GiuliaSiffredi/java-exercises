@@ -9,29 +9,27 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class JsonHelper {
-    private JsonHelper() {
-    }
+public interface JsonHelper {
 
-    public final static ObjectMapper objectMapper = new ObjectMapper();
+    ObjectMapper objectMapper = new ObjectMapper();
 
-    public static <T> JsonNode javaToJson(T o) {
+    static <T> JsonNode objectToJson(T o) {
         return objectMapper.valueToTree(o);
     }
 
-    public static <T> T stringToJava(String jsonString, Class<T> o) throws JsonProcessingException {
+    static <T> T stringToObject(String jsonString, Class<T> o) throws JsonProcessingException {
         return objectMapper.readValue(jsonString, o);
     }
 
-    public static String javaToString(Object o) throws JsonProcessingException {
+    static String objectToString(Object o) throws JsonProcessingException {
         return objectMapper.writeValueAsString(o);
     }
 
-    public static String javaToPrettyString(Object o) {
-        return javaToJson(o).toPrettyString();
+    static String objectToPrettyString(Object o) {
+        return objectToJson(o).toPrettyString();
     }
 
-    public static <T> T jsonToJava(JsonNode json, Class<T> o) {
+    static <T> T jsonToObject(JsonNode json, Class<T> o) {
         return objectMapper.convertValue(json, o);
     }
 

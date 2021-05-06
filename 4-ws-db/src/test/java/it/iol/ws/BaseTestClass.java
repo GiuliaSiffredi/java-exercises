@@ -26,13 +26,16 @@ class BaseTestClass {
     void beforeAll() {
         assertEquals("it", environment.getProperty("spring.profiles.active"), "use -Dspring.profiles.active=it");
         try {
+            jdbcTemplate.execute("DROP TABLE employee");
+        } catch (Exception e) {
+        }
+        try {
             jdbcTemplate.execute("CREATE TABLE employee (\t\n" +
                     "\tname varchar(25) NOT NULL,\n" +
                     "\trole varchar(25) NOT null,\n" +
                     "\tdepartment varchar(15) null,\n" +
                     "\tCONSTRAINT name_pkey PRIMARY KEY (name)\t\n" +
                     ");");
-
         } catch (Exception e) {
             assert e.getMessage().contains("already exists") : "error on creating table " + e.getMessage();
         }

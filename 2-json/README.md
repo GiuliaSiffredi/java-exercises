@@ -3,9 +3,9 @@ Json
 
 Compile
 ---
-`mvn package`
+`mvn clean package`
 
 Test
 ----
 
-`mvn test`
+`mvn clean test`

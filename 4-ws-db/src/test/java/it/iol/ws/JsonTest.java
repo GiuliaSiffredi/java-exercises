@@ -1,8 +1,8 @@
 package it.iol.ws;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import it.iol.ws.util.JsonHelper;
+import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,12 +16,12 @@ public class JsonTest {
     private static final Logger log = LoggerFactory.getLogger(JsonTest.class);
 
     private static Staff getStaff() {
-        List<String> position = Arrays.asList("manager", "hr");
+        val position = Arrays.asList("manager", "hr");
 
-//        List<String> skills = List.of("foo", "bar"); //java 11
-        List<String> skills = new ArrayList<>(Arrays.asList("foo", "bar"));
+//      val skills = List.of("foo", "bar"); //java 11
+        val skills = new ArrayList<>(Arrays.asList("foo", "bar"));
 
-        Map<String, Integer> salary = new HashMap<>();
+        val salary = new HashMap<String, Integer>();
         salary.put("abc", 10000);
         salary.put("def", 20000);
 
@@ -35,9 +35,9 @@ public class JsonTest {
      */
     @Test
     public void javaToJsonString() throws IOException {
-        Staff staff = getStaff();
-        String jsonString = JsonHelper.javaToString(staff);
-        log.debug("jsonString: " + JsonHelper.javaToPrettyString(staff));
+        val staff = getStaff();
+        val jsonString = JsonHelper.objectToString(staff);
+        log.debug("jsonString: {}", JsonHelper.objectToPrettyString(staff));
 
         assert (jsonString.equals("{\"name\":\"bob\",\"age\":30,\"position\":[\"manager\",\"hr\"],\"skills\":[\"foo\",\"bar\"],\"salary\":{\"abc\":10000,\"def\":20000}}"));
     }
@@ -49,9 +49,9 @@ public class JsonTest {
      */
     @Test
     public void jsonStringToJava() throws JsonProcessingException {
-        Staff staff = getStaff();
-        String jsonString = JsonHelper.javaToString(staff);
-        Staff s = JsonHelper.stringToJava(jsonString, Staff.class);
+        val staff = getStaff();
+        val jsonString = JsonHelper.objectToString(staff);
+        val s = JsonHelper.stringToObject(jsonString, Staff.class);
         assert (s.toString().equals(staff.toString()));
 
     }
@@ -63,10 +63,10 @@ public class JsonTest {
      */
     @Test
     public void javaToJsonStringSalaryNull() throws JsonProcessingException {
-        Staff staff = getStaff();
+        val staff = getStaff();
         staff.setSalary(null);
-        String jsonString = JsonHelper.javaToString(staff);
-        log.debug("jsonString: " + JsonHelper.javaToPrettyString(staff));
+        val jsonString = JsonHelper.objectToString(staff);
+        log.debug("jsonString: {}", JsonHelper.objectToPrettyString(staff));
 
         assert (jsonString.equals("{\"name\":\"bob\",\"age\":30,\"position\":[\"manager\",\"hr\"],\"skills\":[\"foo\",\"bar\"],\"salary\":null}"));
     }
@@ -76,8 +76,8 @@ public class JsonTest {
      */
     @Test
     public void javaToJson() {
-        Staff staff = getStaff();
-        JsonNode json = JsonHelper.javaToJson(staff);
+        val staff = getStaff();
+        val json = JsonHelper.objectToJson(staff);
         log.debug(json.toString());
         assert ("{\"name\":\"bob\",\"age\":30,\"position\":[\"manager\",\"hr\"],\"skills\":[\"foo\",\"bar\"],\"salary\":{\"abc\":10000,\"def\":20000}}".equals(json.toString()));
     }
@@ -87,10 +87,10 @@ public class JsonTest {
      */
     @Test
     public void jsonTojava() {
-        Staff staff = getStaff();
-        JsonNode json = JsonHelper.javaToJson(staff);
+        val staff = getStaff();
+        val json = JsonHelper.objectToJson(staff);
         log.debug(json.toString());
-        Staff staff2 = JsonHelper.jsonToJava(json, Staff.class);
+        val staff2 = JsonHelper.jsonToObject(json, Staff.class);
         assert (staff.equals(staff2));
     }
 }

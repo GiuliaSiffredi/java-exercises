@@ -1,6 +1,5 @@
 package it.iol.ws;
 
-import java.util.concurrent.atomic.AtomicLong;
 import it.iol.ws.model.Employee;
 import it.iol.ws.model.Greeting;
 import org.slf4j.Logger;
@@ -14,16 +13,16 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class MyController {
     private static final Logger log = LoggerFactory.getLogger(MyController.class);
-    private final AtomicLong counter = new AtomicLong();
+    private int counter = 0;
 
     /**
-     *
      * @param name
      * @return
      */
     @GetMapping("/greeting")
     public Greeting greeting(@RequestParam(value = "name") String name) {
-        return new Greeting(counter.incrementAndGet(), String.format("Hello, %s!", name));
+        log.debug("Greeting name: {} ", name);
+        return new Greeting(counter++, String.format("Hello, %s!", name));
     }
 
     /**
@@ -33,8 +32,7 @@ public class MyController {
      */
     @PostMapping("/employees/{id}")
     ResponseEntity<?> replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
-        log.debug("store in db " + newEmployee + " id: " + id);
-
+        log.debug("Store in db {} id {}", newEmployee, id);
         return ResponseEntity.ok().build();
     }
 

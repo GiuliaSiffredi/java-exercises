@@ -3,7 +3,7 @@ rest web service
 
 Compile
 ---
-`mvn package`
+`mvn clean package`
 
 Run
 ----

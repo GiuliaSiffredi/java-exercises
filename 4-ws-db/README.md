@@ -1,6 +1,9 @@
 ws-db
 =====
 
+A Spring rest webservice with jdbcTemplate and Lombok
+
+
 Setup
 ---
 Create postgresql db 'mydb' user 'mydb' pass: mydb
@@ -24,11 +27,11 @@ CREATE TABLE employee (
 Test
 ----
 
-`mvn test -Dspring.profiles.active=it`
+`mvn clean test -Dspring.profiles.active=it`
 
 Compile
 ---
-`mvn package -DskipTests`
+`mvn clean package -DskipTests`
 
 Run
 ----
@@ -48,6 +51,7 @@ read all Employees by role:
 `curl -v -X GET localhost:8080/employee/role/developer`
 
 throw an error:
+
 `curl -v -X PUT localhost:8080/employee/3 -H 'Content-Type:application/json' -d '{"name": "", "role": " "}'`
 
 TODO

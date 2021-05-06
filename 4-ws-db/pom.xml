@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.1.RELEASE</version>
+        <version>2.4.5</version>
         <relativePath/>
     </parent>
 
@@ -15,11 +15,6 @@
     <packaging>war</packaging>
 
     <name>ws-db</name>
-
-    <properties>
-        <java.version>1.8</java.version>
-<!--        <java.version>11</java.version>-->
-    </properties>
 
     <dependencies>
         <!--        spring-->
@@ -43,7 +38,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.12</version>
+            <version>1.18.20</version>
             <scope>provided</scope>
         </dependency>
 
@@ -51,7 +46,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.10</version>
+            <version>3.12.0</version>
         </dependency>
 
         <!--        test-->
@@ -81,13 +76,15 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.2.14</version>
+            <version>42.2.20</version>
         </dependency>
 
-        <!--        <dependency>-->
-        <!--            <groupId>mysql</groupId>-->
-        <!--            <artifactId>mysql-connector-java</artifactId>-->
-        <!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>mysql</groupId>-->
+<!--            <artifactId>mysql-connector-java</artifactId>-->
+<!--            <version>8.0.24</version>-->
+<!--        </dependency>-->
+
     </dependencies>
 
     <build>
