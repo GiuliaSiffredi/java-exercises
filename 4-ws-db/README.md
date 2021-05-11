@@ -1,7 +1,7 @@
 ws-db
 =====
 
-A Spring rest webservice with jdbcTemplate and Lombok
+A Spring-boot rest webservice with jdbcTemplate and Lombok
 
 
 Setup

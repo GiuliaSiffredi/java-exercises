@@ -1,5 +1,5 @@
 package it.iol.ws.util;
 
 public interface IApplicationProperties {
-    String getLogLevel();
+    String getFoo();
 }

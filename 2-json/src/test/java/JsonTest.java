@@ -30,7 +30,7 @@ public class JsonTest {
      * @throws IOException
      */
     @Test
-    public void javaToJsonString() throws IOException {
+    public void javaToJsonObject() throws IOException {
         Staff staff = getStaff();
         String jsonString = JsonHelper.objectToString(staff);
         System.out.println("jsonString: " + JsonHelper.objectToPrettyString(staff));
@@ -44,12 +44,11 @@ public class JsonTest {
      * @throws IOException
      */
     @Test
-    public void jsonStringToJava() throws JsonProcessingException {
+    public void jsonStringToObject() throws JsonProcessingException {
         Staff staff = getStaff();
         String jsonString = JsonHelper.objectToString(staff);
         Staff s = JsonHelper.stringToObject(jsonString, Staff.class);
         assert (s.toString().equals(staff.toString()));
-
     }
 
     /**
@@ -58,7 +57,7 @@ public class JsonTest {
      * @throws IOException
      */
     @Test
-    public void javaToJsonStringSalaryNull() throws JsonProcessingException {
+    public void objectToJsonStringSalaryNull() throws JsonProcessingException {
         Staff staff = getStaff();
         staff.setSalary(null);
         String jsonString = JsonHelper.objectToString(staff);
@@ -71,7 +70,7 @@ public class JsonTest {
      * java object to jsonNode
      */
     @Test
-    public void javaToJson() {
+    public void objectToJson() {
         Staff staff = getStaff();
         JsonNode json = JsonHelper.objectToJson(staff);
         System.out.println(json.toString());
@@ -82,7 +81,7 @@ public class JsonTest {
      * jsonNode to java object
      */
     @Test
-    public void jsonTojava() {
+    public void objectTojava() {
         Staff staff = getStaff();
         JsonNode json = JsonHelper.objectToJson(staff);
         System.out.println(json.toString());

@@ -34,7 +34,7 @@ public class JsonTest {
      * @throws IOException
      */
     @Test
-    public void javaToJsonString() throws IOException {
+    public void objectToJsonString() throws IOException {
         val staff = getStaff();
         val jsonString = JsonHelper.objectToString(staff);
         log.debug("jsonString: {}", JsonHelper.objectToPrettyString(staff));
@@ -48,7 +48,7 @@ public class JsonTest {
      * @throws IOException
      */
     @Test
-    public void jsonStringToJava() throws JsonProcessingException {
+    public void jsonStringToObject() throws JsonProcessingException {
         val staff = getStaff();
         val jsonString = JsonHelper.objectToString(staff);
         val s = JsonHelper.stringToObject(jsonString, Staff.class);
@@ -62,7 +62,7 @@ public class JsonTest {
      * @throws IOException
      */
     @Test
-    public void javaToJsonStringSalaryNull() throws JsonProcessingException {
+    public void objectToJsonStringSalaryNull() throws JsonProcessingException {
         val staff = getStaff();
         staff.setSalary(null);
         val jsonString = JsonHelper.objectToString(staff);
@@ -75,7 +75,7 @@ public class JsonTest {
      * java object to jsonNode
      */
     @Test
-    public void javaToJson() {
+    public void objectToJson() {
         val staff = getStaff();
         val json = JsonHelper.objectToJson(staff);
         log.debug(json.toString());
@@ -86,7 +86,7 @@ public class JsonTest {
      * jsonNode to java object
      */
     @Test
-    public void jsonTojava() {
+    public void jsonToObject() {
         val staff = getStaff();
         val json = JsonHelper.objectToJson(staff);
         log.debug(json.toString());

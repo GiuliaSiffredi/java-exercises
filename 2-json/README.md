@@ -1,10 +1,6 @@
 Json
 =====
 
-Compile
----
-`mvn clean package`
-
 Test
 ----
 

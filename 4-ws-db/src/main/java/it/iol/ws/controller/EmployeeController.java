@@ -34,7 +34,6 @@ public class EmployeeController {
      */
     @PutMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
     ResponseEntity<JsonNode> addEmployee(@RequestBody Employee employee, @PathVariable Long id) {
-        log.debug(String.format("received %s id: %d", employee, id));
         log.debug("received %s id: %d {}", employee, id);
         try {
             val report = EmployeeService.insert(jdbcTemplate, employee);

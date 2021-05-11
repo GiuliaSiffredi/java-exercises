@@ -14,6 +14,6 @@ public class ApplicationPropertiesTest {
 
     @Test
     public void appProp() {
-        assertEquals(applicationProperties.getLogLevel(), "TRACE");
+        assertEquals(applicationProperties.getFoo(), "it");
     }
 }
