@@ -16,4 +16,12 @@ public class ApplicationProperties implements IApplicationProperties {
     public String getFileOut() {
         return fileOut;
     }
+    
+    @Value("${email.sender}")
+    private String emailSender;
+
+    @Override
+    public String getEmailSender() {
+        return emailSender;
+    }
 }
