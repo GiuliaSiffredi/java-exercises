@@ -12,6 +12,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 import java.util.List;
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class EmployeeTest extends BaseTestClass {
@@ -23,16 +25,21 @@ class EmployeeTest extends BaseTestClass {
     private int port;
 
     @Test
+    void test1() {
+
+    }
+    @Test
     void employeeOK() {
 
         val headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         val randomName = StringUtil.randomString(10);
-        val emp = new Employee(randomName, "architect", null);
+        val randomId = UUID.randomUUID();
+        val emp = new Employee(randomId,randomName, "architect", null);
         val empJson = JsonHelper.objectToJson(emp);
         val request = new HttpEntity<JsonNode>(empJson, headers);
         
-        val responseEntityStr = restTemplate.exchange(String.format("http://localhost:%d/employee/3", port), HttpMethod.POST, request, JsonNode.class);
+        val responseEntityStr = restTemplate.exchange(String.format("http://localhost:%d/employee/", port), HttpMethod.POST, request, JsonNode.class);
 
         //check result
         assertEquals(responseEntityStr.getStatusCode().value(), 200);
@@ -42,8 +49,8 @@ class EmployeeTest extends BaseTestClass {
         assertEquals(s, expected);
 
         // read employee
-        val res = new Employee(emp.getName().toUpperCase(), emp.getRole().toUpperCase(), null);
-        val get = restTemplate.getForEntity(String.format("http://localhost:%d/employee/%s", port, randomName), JsonNode.class);
+        val res = new Employee(emp.getId(), emp.getName().toUpperCase(), emp.getRole().toUpperCase(), null);
+        val get = restTemplate.getForEntity(String.format("http://localhost:%d/employee/%s" , port, randomId.toString()), JsonNode.class);
         assertEquals(200, get.getStatusCodeValue());
         val z = get.getBody();
         assertEquals(res, JsonHelper.jsonToObject(z, Employee.class));
@@ -54,12 +61,11 @@ class EmployeeTest extends BaseTestClass {
 
         val headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-
-        val emp = new Employee("", "   ", null);
+        val emp = new Employee(UUID.randomUUID(),"", "   ", null);
         val empJson = JsonHelper.objectToJson(emp);
         val request = new HttpEntity<>(empJson, headers);//Object
 
-        val responseEntityJson = restTemplate.exchange(String.format("http://localhost:%d/employee/3", port), HttpMethod.POST, request, JsonNode.class);
+        val responseEntityJson = restTemplate.exchange(String.format("http://localhost:%d/employee/", port), HttpMethod.POST, request, JsonNode.class);
 
         //check result
         assertEquals(responseEntityJson.getStatusCode().value(), 400);
@@ -74,12 +80,12 @@ class EmployeeTest extends BaseTestClass {
 
         val headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-
-        val emp = new Employee("foo", "   ", null);
+        val randomId = UUID.randomUUID();
+        val emp = new Employee(randomId,"foo", "   ", null);
         val empJson = JsonHelper.objectToJson(emp);
         val request = new HttpEntity<>(empJson, headers);
 
-        val responseEntityJson = restTemplate.exchange(String.format("http://localhost:%d/employee/3", port), HttpMethod.POST, request, JsonNode.class);
+        val responseEntityJson = restTemplate.exchange(String.format("http://localhost:%d/employee/", port), HttpMethod.POST, request, JsonNode.class);
 
         //check result
         assertEquals(responseEntityJson.getStatusCode().value(), 400);
@@ -87,7 +93,7 @@ class EmployeeTest extends BaseTestClass {
         assertEquals("[role is empty]", errors.toString());
 
         // read employee must return 404
-        val get = restTemplate.getForEntity(String.format("http://localhost:%d/employee/foo", port), JsonNode.class);
+        val get = restTemplate.getForEntity(String.format("http://localhost:%d/employee/" +randomId, port), JsonNode.class);
         assertEquals(404, get.getStatusCodeValue());
 
     }

@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 /**
  * https://spring.io/guides/gs/rest-service/
  */
@@ -29,12 +31,11 @@ public class EmployeeController {
 
     /**
      * @param employee
-     * @param id
      * @return
      */
-    @PostMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
-    ResponseEntity<JsonNode> addEmployee(@RequestBody Employee employee, @PathVariable Long id) {
-        log.debug("received {} id: {}", employee, id);
+    @PostMapping(path = "/", consumes = "application/json", produces = "application/json")
+    ResponseEntity<JsonNode> addEmployee(@RequestBody Employee employee) {
+        log.debug("received {} ", employee);
         try {
             val report = EmployeeService.validateAndInsert(jdbcTemplate, employee);
             return new ResponseEntity<>(JsonHelper.objectToJson(report), HttpStatus.OK);
@@ -48,10 +49,11 @@ public class EmployeeController {
 
     }
 
-    @GetMapping(path = "/{name}", produces = "application/json")
-    ResponseEntity<JsonNode> getEmployee(@PathVariable String name) {
-        log.debug("received id: {}", name);
-        val json = EmployeeService.getById(jdbcTemplate, name);
+
+    @GetMapping(path = "/{id}", produces = "application/json")
+    ResponseEntity<JsonNode> getEmployee2(@PathVariable String id) {
+        log.debug("received id: {}", id);
+        val json = EmployeeService.getById(jdbcTemplate, UUID.fromString(id));
         if (json.isPresent()) {
             val e = json.get();
             return new ResponseEntity<>(JsonHelper.objectToJson(e), HttpStatus.OK);

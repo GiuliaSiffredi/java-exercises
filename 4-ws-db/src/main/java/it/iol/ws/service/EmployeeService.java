@@ -15,13 +15,28 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface EmployeeService {
     Logger log = LoggerFactory.getLogger(EmployeeService.class);
 
     static Report noValidateAndInsert(@NonNull JdbcTemplate jdbcTemplate, @NonNull Employee employee) throws Exception {
         try {
-            val emp = new Employee(employee.getName().toUpperCase(), employee.getRole().toUpperCase(), employee.getDepartment());
+            val emp = new Employee(employee.getId(), employee.getName().toUpperCase(), employee.getRole().toUpperCase(), employee.getDepartment());
+            DaoEmployee.insert(jdbcTemplate, emp);
+            return new Report("OK", "stored new employee " + emp.getName());
+        } catch (DuplicateKeyException e) {
+            log.warn("insert error {}", e);
+            throw new ValidationException("Entity exists");
+        } catch (Exception e) {
+            log.error("insert error {}", e);
+            throw new ValidationException(e.getMessage());
+        }
+    }
+
+    static Report delete(@NonNull JdbcTemplate jdbcTemplate, @NonNull Employee employee) throws Exception {
+        try {
+            val emp = new Employee(employee.getId(), employee.getName().toUpperCase(), employee.getRole().toUpperCase(), employee.getDepartment());
             DaoEmployee.insert(jdbcTemplate, emp);
             return new Report("OK", "stored new employee " + emp.getName());
         } catch (DuplicateKeyException e) {
@@ -51,8 +66,8 @@ public interface EmployeeService {
         return ll;
     }
 
-    static Optional<Employee> getById(@NonNull JdbcTemplate jdbcTemplate, @NonNull String name) {
-        val e = DaoEmployee.readById(jdbcTemplate, name.toUpperCase());
+    static Optional<Employee> getById(@NonNull JdbcTemplate jdbcTemplate, @NonNull UUID id) {
+        val e = DaoEmployee.readById(jdbcTemplate, id);
 //        return e.map(entity -> new Employee(entity));
         if (e.isPresent()) return Optional.ofNullable(new Employee(e.get()));
         return Optional.empty();
