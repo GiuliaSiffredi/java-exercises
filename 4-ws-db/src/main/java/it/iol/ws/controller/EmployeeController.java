@@ -1,10 +1,12 @@
 package it.iol.ws.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import it.iol.ws.sql.DaoEmployee;
 import it.iol.ws.validator.ValidationException;
 import it.iol.ws.model.Employee;
 import it.iol.ws.service.EmployeeService;
 import it.iol.ws.util.JsonHelper;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,21 @@ public class EmployeeController {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+    }
+
+    @DeleteMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
+    ResponseEntity<JsonNode> deleteEmployee(@PathVariable String id) {
+        try {
+            log.debug("received {} ", id);
+            val report = EmployeeService.delete(jdbcTemplate, UUID.fromString(id));
+            return new ResponseEntity(JsonHelper.objectToJson(report), HttpStatus.OK);
+        } catch (ValidationException errors){
+            log.error("deletedEmployee {}", errors.getErrors());
+            return new ResponseEntity<>(JsonHelper.objectToJson(errors.getErrors()), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            log.error("deletedEmployee", e);
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 

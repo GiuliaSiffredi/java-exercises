@@ -26,10 +26,11 @@ public interface DaoEmployee {
         jdbcTemplate.update(sql, employee.getId(), employee.getName(), employee.getRole(), employee.getDepartment());
     }
 
-    static void delete(@NonNull JdbcTemplate jdbcTemplate, @NonNull Employee employee) throws DataAccessException {
+
+    static void delete(@NonNull JdbcTemplate jdbcTemplate, @NonNull UUID id) throws DataAccessException {
         val sql = "delete from employee where id =?";
-        log.debug("insert: {} {}", sql, employee.getId());
-        jdbcTemplate.update(sql, employee.getId());
+        log.debug("delete: {} {}", sql, id);
+        jdbcTemplate.update(sql, id);
     }
 
     static List<EmployeeEntity> readByRole(@NonNull JdbcTemplate jdbcTemplate, @NonNull String role) {

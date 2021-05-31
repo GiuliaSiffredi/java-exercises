@@ -1,5 +1,6 @@
 package it.iol.ws;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import it.iol.ws.model.Employee;
 import it.iol.ws.model.Report;
@@ -24,10 +25,7 @@ class EmployeeTest extends BaseTestClass {
     @LocalServerPort
     private int port;
 
-    @Test
-    void test1() {
 
-    }
     @Test
     void employeeOK() {
 
@@ -54,6 +52,35 @@ class EmployeeTest extends BaseTestClass {
         assertEquals(200, get.getStatusCodeValue());
         val z = get.getBody();
         assertEquals(res, JsonHelper.jsonToObject(z, Employee.class));
+    }
+
+    @Test
+    void employeeDeleteOK() throws JsonProcessingException {
+
+        val headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        val randomName = StringUtil.randomString(10);
+        val randomId = UUID.randomUUID();
+        val emp = new Employee(randomId,randomName, "architect", null);
+        val empJson = JsonHelper.objectToJson(emp);
+        val request = new HttpEntity<JsonNode>(empJson, headers);
+
+        val responseEntityStr = restTemplate.exchange(String.format("http://localhost:%d/employee/", port), HttpMethod.POST, request, JsonNode.class);
+
+        //check result
+        assertEquals(responseEntityStr.getStatusCode().value(), 200);
+
+
+
+        // delete employee
+        val delRequest = new HttpEntity<JsonNode>(headers);
+        val deleteResponse = restTemplate.exchange(String.format("http://localhost:%d/employee/%s" , port, randomId.toString()), HttpMethod.DELETE, delRequest, JsonNode.class);
+        assertEquals(200, deleteResponse.getStatusCodeValue());
+
+        val expected = new Report("OK", "deleted emp " + randomId);
+        val s = JsonHelper.jsonToObject(deleteResponse.getBody(), Report.class);
+        assertEquals(s, expected);
+
     }
 
     @Test

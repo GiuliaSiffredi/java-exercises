@@ -34,18 +34,22 @@ public interface EmployeeService {
         }
     }
 
-    static Report delete(@NonNull JdbcTemplate jdbcTemplate, @NonNull Employee employee) throws Exception {
-        try {
-            val emp = new Employee(employee.getId(), employee.getName().toUpperCase(), employee.getRole().toUpperCase(), employee.getDepartment());
-            DaoEmployee.insert(jdbcTemplate, emp);
-            return new Report("OK", "stored new employee " + emp.getName());
-        } catch (DuplicateKeyException e) {
-            log.warn("insert error {}", e);
-            throw new ValidationException("Entity exists");
-        } catch (Exception e) {
-            log.error("insert error {}", e);
-            throw new ValidationException(e.getMessage());
-        }
+    static Report delete(@NonNull JdbcTemplate jdbcTemplate, @NonNull UUID id) throws Exception {
+
+            Optional<EmployeeEntity> emp =DaoEmployee.readById(jdbcTemplate, id);
+            if (!emp.isPresent()){
+                log.error("{} not present", id);
+                throw new ValidationException("Entity not exists");
+            }
+            DaoEmployee.delete(jdbcTemplate,id);
+            emp =DaoEmployee.readById(jdbcTemplate, id);
+            if (emp.isPresent()){
+            log.error("delete error {}", id);
+            throw new ValidationException("Entity not deleted");
+            }
+
+            return new Report("OK", "deleted emp " + id);
+
     }
 
     static Report validateAndInsert(@NonNull JdbcTemplate jdbcTemplate, @NonNull Employee employee) throws Exception {
