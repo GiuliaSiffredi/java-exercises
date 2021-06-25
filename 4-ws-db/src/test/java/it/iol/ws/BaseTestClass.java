@@ -19,9 +19,9 @@ abstract class BaseTestClass {
     @Qualifier("jdbcTemplate1")
     protected JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    @Qualifier("jdbcTemplate2")
-    protected JdbcTemplate jdbcTemplate2;
+    //@Autowired
+    //@Qualifier("jdbcTemplate2")
+    //protected JdbcTemplate jdbcTemplate2;
 
     @BeforeEach
     void beforeAll() {

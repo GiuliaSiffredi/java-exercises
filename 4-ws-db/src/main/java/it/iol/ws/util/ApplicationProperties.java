@@ -14,4 +14,7 @@ public class ApplicationProperties implements IApplicationProperties {
     @Value("${foo}")
     private String foo;
 
+    @Value("${file.out}")
+    private String fileOut;
+
 }

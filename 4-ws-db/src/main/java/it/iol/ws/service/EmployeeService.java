@@ -8,14 +8,25 @@ import it.iol.ws.model.Report;
 import it.iol.ws.validator.ValidatorEmployee;
 import lombok.NonNull;
 import lombok.val;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static java.nio.file.Files.newBufferedWriter;
 
 public interface EmployeeService {
     Logger log = LoggerFactory.getLogger(EmployeeService.class);
@@ -76,4 +87,30 @@ public interface EmployeeService {
         if (e.isPresent()) return Optional.ofNullable(new Employee(e.get()));
         return Optional.empty();
     }
+
+
+
+        static void appendToCsv(String nomeFile, ArrayList<EmployeeEntity> fields) throws IOException {
+            BufferedWriter writer;
+            // TODO if file non esiste, writer=standardopenoption.create altrimenti append
+            Path path = Paths.get(nomeFile);
+            CSVPrinter csvPrinter;
+            if(Files.notExists(path)){
+                writer = newBufferedWriter(path, StandardOpenOption.CREATE);
+                csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withHeader("ID", "Name", "Role", "Department"));
+                log.debug(nomeFile + " creato");
+            }else{
+                writer = newBufferedWriter(path, StandardOpenOption.APPEND);
+                csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT);
+                log.debug(nomeFile + " aggiornato");
+            }
+
+            //writer = Files.newBufferedWriter(path, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            //CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withHeader("ID", "Name", "Role", "Date"));
+
+            csvPrinter.printRecord(fields);
+            csvPrinter.close();
+
+
+        };
 }

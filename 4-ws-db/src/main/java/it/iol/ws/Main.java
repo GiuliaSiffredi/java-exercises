@@ -13,7 +13,7 @@ public class Main {
 
         val env = "spring.profiles.active";
         val prop = System.getenv(env) != null ? System.getenv(env) : System.getProperty(env);
-        if (prop == null || (!prop.equals("local") && !prop.equals("dev") && !prop.equals("it") && !prop.equals("prod") && !prop.equals("test"))) {
+        if (prop == null || (!prop.equals("local") && !prop.equals("dev") && !prop.equals("it") && !prop.equals("prod") && !prop.equals("test") && !prop.equals("embeddedh2"))) {
             log.error("bad {}", env + " ******************* use -Dspring.profiles.active={local|it|dev|prod|test} *******************");
             System.exit(1);
         }
